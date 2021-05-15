@@ -1,2 +1,3 @@
-f,c = 0,1
-print(f,c)
+'''f,c = 0,1
+print(f,c)'''
+

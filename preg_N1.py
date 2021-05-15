@@ -3,10 +3,9 @@ from time import time
 from typing import Reversible
 
 class nodo():
-    def __init__(self, estado, padre, coste):
+    def __init__(self, estado, padre):
         self.estado = estado
         self.padre = padre
-        self.coste = coste
     def generar_hijos(self):        
         self.hijos = []
         for c in range(len(self.estado)-1):
@@ -20,17 +19,13 @@ class nodo():
 
 #nodo_inicial = nodo([2,3,5,1,4],None)
 estado_inicial = [
-    [5 ,6 ,7 ,8 ,9 ],
-    [0 ,1 ,2 ,3 ,4 ],
-    [10,11,12,13,14]
+    []
 ]
 #print(nodo_inicial.generar_hijos())
 estado_solucion = [
-    [0 ,1 ,2 ,3 ,4 ],
-    [5 ,6 ,7 ,8 ,9 ],
-    [10,11,12,13,14]
+    
 ]
-'''
+
 def buscar_en_lista(lista1, nodo):
     esta_enlista = False 
     if lista1 != []:
@@ -38,7 +33,7 @@ def buscar_en_lista(lista1, nodo):
             if nds_enlist == nodo:
                 esta_enlista = True
     return esta_enlista
-'''
+
 ruta_corta = []
 def busca_alPadre(nodo1):
     ruta_corta.append(nodo1.estado)
@@ -61,10 +56,8 @@ def busqueda_anchura(estado_inicial1, estado_solucion1):
         if nodo_actual.estado == estado_solucion1:
             resuelto = True
             print(nodo_actual.estado, "solucion = ",nodos_desplegados-1)
-            '''
             camino =list(reversed(busca_alPadre(nodo_actual))) 
             print("Ruta mas corta = ",camino)
-            '''
             return nodo_actual
         else:           
             lista_hijos = copy.deepcopy(nodo_actual.generar_hijos())

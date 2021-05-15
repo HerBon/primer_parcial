@@ -52,28 +52,62 @@ estado_inicial = [
     [1 ,5 ,2 ,3 ,4 ],
     [10,11,12,13,14]
 ]
-
 estado_solucion = [
     [0 ,1 ,2 ,3 ,4 ],
     [5 ,6 ,7 ,8 ,9 ],
     [10,11,12,13,14]
 ]
-
-nodo_inicial = nodo(estado_inicial, None, None)
+#nodo_inicial = nodo(estado_inicial, None, None)
 '''
 print(nodo_inicial.buscar_moviminetos(0))
 print(nodo_inicial.crear_hijos())
 print(nodo_inicial.hallar_heuristica())
 print(nodo_inicial.coste)
 '''
-'''
-[0, 0], [0, 1], [1, 0]]
+def buscar_en_lista(lista1, nodo):
+    esta_enlista = False 
+    if lista1 != []:
+        for nds_enlist in lista1:
+            if nds_enlist == nodo:
+                esta_enlista = True
+    return esta_enlista
 
-[[ 6, 0, 7, 8, 9],
- [ 1, 5, 2, 3, 4], 
- [10,11,12,13,14]]
- ----------------
- [[ 1, 6, 7, 8, 9],
-  [ 0, 5, 2, 3, 4], 
-  [10,11,12,13,14]]
-'''
+
+def Comparar(nodo):
+    return nodo.coste
+
+def busqueda_anchura(estado_inicial1, estado_solucion1):
+    resuelto = False
+    nodos_visitados = []
+    nodos_frontera = []
+    nodo_raiz = nodo(estado_inicial1,None,None)
+    nodo_raiz.hallar_heuristica()
+    nodos_frontera.append(nodo_raiz)
+    while (not resuelto) and nodos_frontera != []:
+        #en este debes ordenar la frontera osea aplicar la huristica
+        nodos_frontera = sorted(nodos_frontera, key=Comparar)
+        nodo_actual = nodos_frontera.pop(0)
+        nodos_visitados.append(nodo_actual)
+        if nodo_actual.estado == estado_solucion1:
+            resuelto = True
+            print(nodo_actual.estado)
+            return nodo_actual
+        else:           
+            lista_hijos = copy.deepcopy(nodo_actual.crear_hijos())
+            print(lista_hijos)
+            for hijo in lista_hijos:
+                print(hijo)
+                
+                nodo_hijo = nodo(hijo, nodo_actual, None)
+                nodo_hijo.hallar_heuristica()
+                print(nodo_hijo.coste)
+
+                if not buscar_en_lista(nodos_frontera,nodo_hijo) and not buscar_en_lista(nodos_visitados, nodo_hijo):
+                    nodos_frontera.append(nodo_hijo)
+                    
+        
+
+t_inicio = time()
+busqueda_anchura(estado_inicial,estado_solucion)
+t_final = time()
+print(t_final- t_inicio," Segundos ")
