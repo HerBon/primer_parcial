@@ -9,8 +9,8 @@ estado_solucion = [
     [10,11,12,13,14]
 ]
 estado_inicial =  [
-    [5 ,2 ,3 ,0 ,4 ],
-    [6 ,1 ,7 ,8 ,9 ],
+    [5 ,2 ,3 ,8 ,4 ],
+    [6 ,1 ,7 ,9 ,0 ],
     [10,11,12,13,14]
 ]
 def encontar_posicion(estado_pos, elemto):
