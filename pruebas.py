@@ -3,11 +3,27 @@ from time import time
 from typing import Reversible
 from math import sqrt
 
+estado_solucion = [
+    [0 ,1 ,2 ,3 ,4 ],
+    [5 ,6 ,7 ,8 ,9 ],
+    [10,11,12,13,14]
+]
+estado_inicial = [
+    [5 ,6 ,7 ,8 ,9 ],
+    [1 ,0 ,2 ,3 ,4 ],
+    [10,11,12,13,14]
+]
+
 class nodo():
-    def __init__(self, estado, padre, coste):
+    def __init__(self, estado, padre):
         self.estado = estado
         self.padre = padre
-        self.coste = coste    
+        k = 15
+        for f in range(3):
+            for c in range(5):
+                if self.estado[f][c] == estado_solucion[f][c]:
+                    k = k-1
+        self.costoso = k  
 
     def buscar_moviminetos(self,origen1):
         list_x_yposNew = []
@@ -36,33 +52,14 @@ class nodo():
             hijo[f][c] = copy.deepcopy(self.estado[x][y])
             hijos.append(hijo)
         return hijos
-
-    def hallar_heuristica(self):
-        nodo_solcucion = nodo(estado_solucion,None, 0)
-        heuristica= 0
-        for i in range(15):
-            x_nodo,y_nodo = self.buscar_moviminetos(i).pop(0)    
-            x_sol,y_sol = nodo_solcucion.buscar_moviminetos(i).pop(0)
-            heuristica =  heuristica + sqrt((abs(x_sol - x_nodo ))**2 + (abs(y_sol - y_nodo))**2) 
-        self.coste =heuristica      
-        return heuristica
-
-estado_inicial = [
-    [0 ,6 ,7 ,8 ,9 ],
-    [1 ,5 ,2 ,3 ,4 ],
-    [10,11,12,13,14]
-]
-estado_solucion = [
-    [0 ,1 ,2 ,3 ,4 ],
-    [5 ,6 ,7 ,8 ,9 ],
-    [10,11,12,13,14]
-]
-#nodo_inicial = nodo(estado_inicial, None, None)
 '''
-print(nodo_inicial.buscar_moviminetos(0))
-print(nodo_inicial.crear_hijos())
+nodo_inicial = nodo(estado_inicial, None)
+
+#print(nodo_inicial.buscar_moviminetos(0))
+#print(nodo_inicial.crear_hijos())
 print(nodo_inicial.hallar_heuristica())
 print(nodo_inicial.coste)
+
 '''
 def buscar_en_lista(lista1, nodo):
     esta_enlista = False 
@@ -74,18 +71,24 @@ def buscar_en_lista(lista1, nodo):
 
 
 def Comparar(nodo):
-    return nodo.coste
+    return nodo.costoso
 
 def busqueda_anchura(estado_inicial1, estado_solucion1):
     resuelto = False
     nodos_visitados = []
     nodos_frontera = []
-    nodo_raiz = nodo(estado_inicial1,None,None)
-    nodo_raiz.hallar_heuristica()
+    nodo_raiz = nodo(estado_inicial1, None)   
     nodos_frontera.append(nodo_raiz)
+    #corte = False
     while (not resuelto) and nodos_frontera != []:
-        #en este debes ordenar la frontera osea aplicar la huristica
-        nodos_frontera = sorted(nodos_frontera, key=Comparar)
+        #en este debes ordenar la frontera osea aplicar la huristica+
+        print("antes  =",nodos_frontera[0].costoso)
+        #nodos_frontera = sorted(nodos_frontera, key=Comparar)
+        print("despues=",nodos_frontera[0].costoso)
+        '''
+        if corte  == True:
+            break
+        '''
         nodo_actual = nodos_frontera.pop(0)
         nodos_visitados.append(nodo_actual)
         if nodo_actual.estado == estado_solucion1:
@@ -98,12 +101,13 @@ def busqueda_anchura(estado_inicial1, estado_solucion1):
             for hijo in lista_hijos:
                 print(hijo)
                 
-                nodo_hijo = nodo(hijo, nodo_actual, None)
-                nodo_hijo.hallar_heuristica()
-                print(nodo_hijo.coste)
+                nodo_hijo = nodo(hijo, nodo_actual)
+
+                print(nodo_hijo.costoso)
 
                 if not buscar_en_lista(nodos_frontera,nodo_hijo) and not buscar_en_lista(nodos_visitados, nodo_hijo):
                     nodos_frontera.append(nodo_hijo)
+                    #corte=True
                     
         
 
