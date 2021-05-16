@@ -9,7 +9,7 @@ estado_solucion = [
     [10,11,12,13,14]
 ]
 estado_inicial =  [
-    [5 ,0 ,2 ,3 ,4 ],
+    [5 ,2 ,3 ,0 ,4 ],
     [6 ,1 ,7 ,8 ,9 ],
     [10,11,12,13,14]
 ]
@@ -80,7 +80,7 @@ def buscar_en_lista(lista1, nodo):
 def Comparar(nodo):
     return nodo.costoso
 
-def busqueda_anchura(estado_inicial1, estado_solucion1):
+def busqueda_a_star(estado_inicial1, estado_solucion1):
     resuelto = False
     nodos_visitados = []
     nodos_frontera = []
@@ -88,27 +88,30 @@ def busqueda_anchura(estado_inicial1, estado_solucion1):
     nodos_frontera.append(nodo_raiz)
     while (not resuelto) and nodos_frontera != []:
         #en este debes ordenar la frontera osea aplicar la huristica+
-        print("antes  =",nodos_frontera[0].costoso)
+        print("frontera sin orden f = g + h =",nodos_frontera[0].costoso)
         nodos_frontera = sorted(nodos_frontera, key=Comparar)
-        print("despues=",nodos_frontera[0].costoso)
+        print("frontera con orden f = g + h =",nodos_frontera[0].costoso)
         nodo_actual = nodos_frontera.pop(0)
+        print("--------------------")
+        for f in nodo_actual.estado:           
+            print(f)
+        print("--------------------")
         nodos_visitados.append(nodo_actual)
         if nodo_actual.estado == estado_solucion1:
             resuelto = True
-            print(nodo_actual.estado)
             return nodo_actual
         else:           
             lista_hijos = copy.deepcopy(nodo_actual.crear_hijos())
-            print(lista_hijos)
+            #print(lista_hijos)
             for hijo in lista_hijos:
-                print(hijo)                
+                #print(hijo)                
                 nodo_hijo = nodo(hijo, nodo_actual)
-                print(nodo_hijo.costoso)
+                #print(nodo_hijo.costoso)
                 if not buscar_en_lista(nodos_frontera,nodo_hijo) and not buscar_en_lista(nodos_visitados, nodo_hijo):
                     nodos_frontera.append(nodo_hijo)
-                    print(nodos_frontera)
+                    
                                    
 t_inicio = time()
-busqueda_anchura(estado_inicial,estado_solucion)
+busqueda_a_star(estado_inicial,estado_solucion)
 t_final = time()
 print(t_final- t_inicio," Segundos ")
