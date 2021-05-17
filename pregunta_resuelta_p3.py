@@ -75,7 +75,7 @@ def principal(poblacio_final):
     for indiv in poblacion_gen1:
         print(indiv)
         if indiv == individuo_perfecto:
-            break
+            exit()
     principal(poblacion_gen1)
 principal(crear_poblacion1())
 
