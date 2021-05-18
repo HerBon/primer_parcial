@@ -9,8 +9,8 @@ estado_solucion = [
     [10,11,12,13,14]
 ]
 estado_inicial =  [
-    [5 ,2 ,3 ,8 ,4 ],
-    [6 ,1 ,7 ,9 ,0 ],
+    [1 ,2 ,3 ,4, 0 ],
+    [5 ,6 ,7 ,8 ,9 ],
     [10,11,12,13,14]
 ]
 def encontar_posicion(estado_pos, elemto):
@@ -75,7 +75,8 @@ def buscar_en_lista(lista1, nodo):
         for nds_enlist in lista1:
             if nds_enlist == nodo:
                 esta_enlista = True
-    return esta_enlista
+                return esta_enlista
+    
 
 def Comparar(nodo):
     return nodo.costoso
@@ -109,7 +110,7 @@ def busqueda_a_star(estado_inicial1, estado_solucion1):
                 #print(nodo_hijo.costoso)
                 if not buscar_en_lista(nodos_frontera,nodo_hijo) and not buscar_en_lista(nodos_visitados, nodo_hijo):
                     nodos_frontera.append(nodo_hijo)
-                    
+                
                                    
 t_inicio = time()
 busqueda_a_star(estado_inicial,estado_solucion)
