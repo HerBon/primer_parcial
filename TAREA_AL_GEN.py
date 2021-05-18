@@ -1,19 +1,19 @@
 import random
 import copy
 
-individuo_perfecto =[1,0,1,0,1,0,0,1,0,1,0,1,1,0,1,0,1,0,0,1,0,1,0,1]
+la_solucion_1 =[1,0,1,0,1,0,0,1,0,1,0,1,1,0,1,0,1,0,0,1,0,1,0,1,1,1,1,1,1,1,1,1]
 
 def crear_poblacion1(): # crea la poblacion inicial
     poblacion_ini =[]
-    for f in range(0,24):
-        new_ind = [random.choice(range(0,2)) for c in range(0,24)]
+    for f in range(0,32):
+        new_ind = [random.choice(range(0,2)) for c in range(0,32)]
         poblacion_ini.append(new_ind)
     return poblacion_ini
     
-def crear_fitnees(indiv_inicial,individuo_perfecto):
+def crear_fitnees(indiv_inicial,la_solucion_1):
     cont_fit= 0
-    for i in range(0,24):
-        if indiv_inicial[i] == individuo_perfecto[i]:
+    for i in range(0,32):
+        if indiv_inicial[i] == la_solucion_1[i]:
             cont_fit = cont_fit+1
     return cont_fit
 
@@ -21,10 +21,10 @@ def cruza(pobalcion_seccionada):
     poblacion_cruzada =[]
     for cromosomas, estado_fisico, probailidad_morir in pobalcion_seccionada:
         poblacion_cruzada.append(cromosomas)
-    for i in range(0,23):
+    for i in range(0,31):
         l1 = poblacion_cruzada[i]
         l2 = poblacion_cruzada[i+1]
-        l3 = l1[:13] + l2[13:24]
+        l3 = l1[:17] + l2[17:32]
         poblacion_cruzada[i] = l3       
     return poblacion_cruzada
 def mutar(pobalcion_que_cruzo):
@@ -42,11 +42,11 @@ class poblacion ():
         self.fitness_pobla = []  # [[individio, fisnes,proba_vi],[individio, fisnes, proba_vi],....]
         self.fitness_total = 0
         for i in self.estado_pobla:
-            encontar_fit = crear_fitnees(i,individuo_perfecto)
+            encontar_fit = crear_fitnees(i,la_solucion_1)
             self.fitness_total = self.fitness_total + encontar_fit
             self.fitness_pobla.append([i,encontar_fit])
        
-        for num in range(0,24):
+        for num in range(0,32):
             prob_fit_1 = (self.fitness_pobla[num][1])/self.fitness_total
             self.fitness_pobla[num].append(prob_fit_1) 
 
@@ -67,6 +67,16 @@ class poblacion ():
         self.depues_de_seccion = el_master 
         return mutacion_pobla
 
+def binario_a_decimal(binario):
+    posicion = 0
+    decimal = 0
+    binario = binario[::-1]
+    for digito in binario:
+        # Elevar 2 a la posición actual
+        multiplicador = 2**posicion
+        decimal += int(digito) * multiplicador
+        posicion += 1
+    return decimal
 
 def principal(poblacio_final):
     poblacion_nn = poblacion(poblacio_final)
@@ -74,7 +84,8 @@ def principal(poblacio_final):
     print("-----------------------")
     for indiv in poblacion_gen1:
         print(indiv)
-        if indiv == individuo_perfecto:
+        if indiv == la_solucion_1:
+            print("elresultado es:",binario_a_decimal(indiv))
             exit()
     principal(poblacion_gen1)
 principal(crear_poblacion1())
